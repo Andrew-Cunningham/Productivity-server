@@ -27,9 +27,14 @@ public class Activity {
     @Column
     private String content;
 
-    // Create a column named "created_at"
     @Column
-    private Date created_at;
+    private String contentType;
+
+    @Column
+    private Long activityTimeInMinuets;
+
+    @Column
+    private String date;
 
     // This is a many-to-one relationship, it's not optional
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

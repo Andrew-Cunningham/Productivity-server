@@ -43,7 +43,7 @@ public class ActivityController{
         // Go find a user with the id path variable
         return userRepository.findById(userId).map(user -> {
             // Set the created_at field
-            activity.setCreated_at(new Date());
+
             // Set the user to be the user that was found with findById
             activity.setUser(user);
             // Save the status with the updated fields
