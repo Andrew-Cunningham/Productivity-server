@@ -50,6 +50,28 @@ public class UserController {
         System.out.println(user);
         return user;
     }
+    @PostMapping("/authenticate")
+    public HashMap<Object, Object> authenticateUser(@RequestBody User searchUser) {
+
+        User apple = userRepository.findByEmail(searchUser.getEmail());
+
+        HashMap<Object, Object> parentHash = new HashMap<>();
+        HashMap<Object, Object> user = new HashMap<>();
+        HashMap<Object, Object> authBoolean = new HashMap<>();
+        if(apple.getPassword().equals(searchUser.getPassword())){
+            System.out.println("I ran!!!!!!!");
+            user.put("authenticated", true);
+            authBoolean.put("user", apple);
+            //authBoolean.put(true, apple);
+            parentHash.put("authenticated",true);
+            parentHash.put("user", apple);
+            return parentHash;
+        }
+        else{
+            parentHash.put("authenticated", false);
+            return parentHash;
+        }
+    }
 
     @DeleteMapping("/{id}")
     public User deleteOneUser(@PathVariable long id) {
