@@ -1,16 +1,14 @@
 package com.example.productivity.user;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-
 
 
 import java.util.Optional;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -32,7 +30,7 @@ public class UserController {
 
     @PostMapping
     public User addOneUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+          return userRepository.save(newUser);
     }
 
     @PatchMapping("/{id}")
@@ -50,26 +48,28 @@ public class UserController {
         System.out.println(user);
         return user;
     }
-    @PostMapping("/authenticate")
-    public HashMap<Object, Object> authenticateUser(@RequestBody User searchUser) {
 
-        User apple = userRepository.findByEmail(searchUser.getEmail());
+    @PostMapping("/authenticate")
+    public User authenticateUser(@RequestBody User searchUser) {
+
+        User userFound = userRepository.findByEmail(searchUser.getEmail());
 
         HashMap<Object, Object> parentHash = new HashMap<>();
         HashMap<Object, Object> user = new HashMap<>();
         HashMap<Object, Object> authBoolean = new HashMap<>();
-        if(apple.getPassword().equals(searchUser.getPassword())){
+        if(userFound.getPassword().equals(searchUser.getPassword())){
             System.out.println("I ran!!!!!!!");
             user.put("authenticated", true);
-            authBoolean.put("user", apple);
+            authBoolean.put("user", userFound);
             //authBoolean.put(true, apple);
             parentHash.put("authenticated",true);
-            parentHash.put("user", apple);
-            return parentHash;
+            parentHash.put("user", userFound);
+            System.out.println(userFound);
+            return userFound;
         }
         else{
             parentHash.put("authenticated", false);
-            return parentHash;
+            return userFound;
         }
     }
 
