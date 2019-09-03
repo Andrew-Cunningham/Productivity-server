@@ -4,7 +4,6 @@ import com.example.productivity.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +32,9 @@ public class ActivityController{
 
     // Get one status using the path variable "id" from the url
     @GetMapping("/{id}")
-    public Optional<Activity> getOneStatus(@PathVariable long id) {
-        return activityRepository.findById(id);
+    public List<Activity> getOneStatus(@PathVariable long id) {
+        System.out.println("I'm running");
+        return activityRepository.findByUserId(id);
     }
 
     // Add one status
