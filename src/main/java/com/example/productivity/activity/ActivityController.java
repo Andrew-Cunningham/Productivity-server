@@ -11,7 +11,8 @@ import java.util.Optional;
 @RestController
 // The base url is...
 @RequestMapping("api/v1/activities")
-public class ActivityController{
+@CrossOrigin
+public class ActivityController {
 
     // The dependencies that were injected:
     @Autowired
@@ -30,7 +31,6 @@ public class ActivityController{
         return activityRepository.findAll();
     }
 
-    // Get one status using the path variable "id" from the url
     @GetMapping("/{id}")
     public List<Activity> getOneStatus(@PathVariable long id) {
         System.out.println("I'm running");
@@ -39,9 +39,9 @@ public class ActivityController{
 
     // Add one status
     @PostMapping("/user/{userId}")
-    public Optional<Activity> addOneStatus(@PathVariable long userId, @RequestBody Activity activity) {
+    public List<Activity> addOneStatus(@PathVariable long userId, @RequestBody Activity activity) {
         // Go find a user with the id path variable
-        return userRepository.findById(userId).map(user -> {
+        userRepository.findById(userId).map(user -> {
             // Set the created_at field
 
             // Set the user to be the user that was found with findById
@@ -49,6 +49,7 @@ public class ActivityController{
             // Save the status with the updated fields
             return activityRepository.save(activity);
         });
+        return activityRepository.findByUserId(userId);
     }
 
     // Update existing status
